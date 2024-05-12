@@ -7,7 +7,7 @@ import (
 
 func main() {
 	if !secret.Setup() {
-		panic("Error loading .env file")
+		// panic("Error loading .env file")
 	}
 
 	r := router.Setup()
