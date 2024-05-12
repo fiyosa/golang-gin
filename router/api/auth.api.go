@@ -9,7 +9,7 @@ import (
 func AuthSecret(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"data": gin.H{
-			"APP_PORT":  secret.APP_PORT,
+			"APP_PORT":  secret.PORT,
 			"APP_ENV":   secret.APP_ENV,
 			"APP_DEBUG": secret.APP_DEBUG,
 		},

@@ -12,5 +12,5 @@ func main() {
 
 	r := router.Setup()
 
-	r.Run(":" + secret.APP_PORT)
+	r.Run(":" + secret.PORT)
 }
