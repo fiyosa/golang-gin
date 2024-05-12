@@ -19,6 +19,7 @@ func Setup() *gin.Engine {
 
 	auth := p.Group("/auth")
 	{
+		auth.GET("/secret", api.AuthSecret)
 		auth.GET("/login", api.AuthLogin)
 		auth.GET("/register", api.AuthRegister)
 	}
