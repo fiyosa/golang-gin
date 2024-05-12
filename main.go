@@ -3,14 +3,16 @@ package main
 import (
 	"gin/config/secret"
 	"gin/router"
+	"os"
 )
 
 func main() {
-	if !secret.Setup() {
-		// panic("Error loading .env file")
-	}
+	secret.Setup()
+	// if !secret.Setup() {
+	// panic("Error loading .env file")
+	// }
 
 	r := router.Setup()
 
-	r.Run(":" + secret.PORT)
+	r.Run(":" + os.Getenv("PORT"))
 }
