@@ -14,5 +14,5 @@ func main() {
 
 	r := router.Setup()
 
-	r.Run(":" + os.Getenv("PORT"))
+	r.Run(":" + os.Getenv("APP_PORT"))
 }
