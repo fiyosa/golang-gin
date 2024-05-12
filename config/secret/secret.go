@@ -1,6 +1,7 @@
 package secret
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -24,6 +25,7 @@ func Setup() bool {
 
 func getEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
+		fmt.Println(key, value, ok)
 		return value
 	}
 	return fallback
@@ -31,6 +33,7 @@ func getEnv(key, fallback string) string {
 
 func GetEnv1(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
+		fmt.Println(key, value, ok)
 		return value
 	}
 	return fallback
