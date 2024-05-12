@@ -2,7 +2,6 @@ package secret
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -15,7 +14,8 @@ var APP_DEBUG string
 func Setup() bool {
 	status := true
 	if err := godotenv.Load(".env"); err != nil {
-		log.Fatalln("Error loading .env file")
+		fmt.Println("Error loading .env file")
+		fmt.Println(err.Error())
 		status = false
 	}
 
