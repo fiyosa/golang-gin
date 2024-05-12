@@ -15,12 +15,12 @@ func AuthSecret(c *gin.Context) {
 			"APP_DEBUG": secret.GetEnv1("APP_DEBUG", "hehe3"),
 		},
 		"data-manual": gin.H{
-			"APP_PORT":  os.Getenv("PORT"),
+			"PORT":      os.Getenv("PORT"),
 			"APP_ENV":   os.Getenv("APP_ENV"),
 			"APP_DEBUG": os.Getenv("APP_DEBUG"),
 		},
 		"data": gin.H{
-			"APP_PORT":  secret.APP_PORT,
+			"PORT":      secret.PORT,
 			"APP_ENV":   secret.APP_ENV,
 			"APP_DEBUG": secret.APP_DEBUG,
 		},
