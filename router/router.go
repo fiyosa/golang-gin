@@ -1,34 +1,44 @@
 package router
 
 import (
-	"gin/config/secret"
-	"gin/pkg/helper"
-	"gin/router/api"
+	"go-gin/pkg/middleware"
+	"go-gin/pkg/secret"
+	"go-gin/service/route"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Setup() *gin.Engine {
+func configRouter() *gin.Engine {
+	if secret.APP_ENV == "development" {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	r := gin.New()
 	r.Use(gin.Recovery())
-	if value, _ := helper.Str2Bool(secret.APP_DEBUG); value {
+	if secret.APP_ENV == "development" {
 		r.Use(gin.Logger())
 	}
+	r.SetTrustedProxies(nil)
+	r.Use(middleware.Cors())
 
-	p := r.Group("/api") // prefix
+	return r
+}
 
-	auth := p.Group("/auth")
+func Setup() *gin.Engine {
+	r := configRouter()
+	p := r.Group("/api") // prefix /api
+
+	p.GET("/auth/login", route.AuthLogin)
+	p.GET("/auth/secret", route.AuthSecret)
+
+	p.Use(middleware.Auth())
 	{
-		auth.GET("/secret", api.AuthSecret)
-		auth.GET("/login", api.AuthLogin)
-		auth.GET("/register", api.AuthRegister)
+		p.GET("/user", route.UserIndex)
 	}
 
-	user := p.Group("/user")
-	{
-		user.GET("/login", api.AuthLogin)
-		user.GET("/register", api.AuthRegister)
-	}
+	r.NoRoute(route.AuthNotFound)
 
 	return r
 }

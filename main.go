@@ -1,15 +1,22 @@
 package main
 
 import (
-	"gin/config/secret"
-	"gin/router"
-	"os"
+	"go-gin/cmd"
+	"go-gin/pkg/db"
+	"go-gin/pkg/secret"
+	"go-gin/router"
 )
 
 func main() {
 	secret.Setup()
 
+	db.Setup()
+
+	if cmd.Setup() {
+		return // using the option
+	}
+
 	r := router.Setup()
 
-	r.Run(":" + os.Getenv("PORT"))
+	r.Run(":" + secret.PORT)
 }

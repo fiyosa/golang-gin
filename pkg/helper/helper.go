@@ -11,3 +11,7 @@ func Str2Bool(data string) (bool, error) {
 	}
 	return boolValue, nil
 }
+
+func Int2Str(data int) string {
+	return strconv.Itoa(data)
+}
