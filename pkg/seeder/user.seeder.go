@@ -1,7 +1,7 @@
 package seeder
 
 import (
-	"go-gin/database/model"
+	"go-gin/pkg/db"
 	"go-gin/pkg/hash"
 	"go-gin/pkg/helper"
 	"go-gin/pkg/jwt"
@@ -12,7 +12,7 @@ import (
 func UserSeeder(g *gorm.DB) {
 	password, _ := hash.Create("Password")
 
-	users := []*model.User{
+	users := []*db.User{
 		{Username: "admin", Name: "Admin", Password: password},
 		{Username: "user", Name: "User", Password: password},
 	}

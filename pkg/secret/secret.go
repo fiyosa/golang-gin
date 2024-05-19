@@ -12,6 +12,7 @@ var (
 	APP_ENV    string
 	APP_LOCALE string
 	APP_SECRET string
+	APP_URL    string
 
 	DB_HOST string
 	DB_PORT string
@@ -25,6 +26,7 @@ func env() {
 	APP_ENV = getEnv("APP_ENV", "development")
 	APP_LOCALE = getEnv("APP_LOCALE", "en")
 	APP_SECRET = getEnv("APP_SECRET", "secret")
+	APP_URL = getEnv("APP_URL", "http://localhost:4000")
 
 	DB_HOST = getEnv("DB_HOST", "localhost")
 	DB_PORT = getEnv("DB_PORT", "5432")

@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"go-gin/database/model"
 	"go-gin/pkg/secret"
 	"time"
 
@@ -14,9 +13,9 @@ import (
 var G *gorm.DB
 
 var Models = []interface{}{
-	&model.User{},
-	&model.Contact{},
-	&model.Address{},
+	&User{},
+	&Contact{},
+	&Address{},
 }
 
 func Setup() {
@@ -29,7 +28,7 @@ func Setup() {
 		secret.DB_PORT,
 	)
 
-	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	connect, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction: true,
 		Logger:                 logger.Default.LogMode(logger.Info),
 		NowFunc: func() time.Time {
@@ -41,5 +40,5 @@ func Setup() {
 		fmt.Println(err.Error())
 	}
 
-	G = conn
+	G = connect
 }

@@ -12,7 +12,7 @@ import (
 
 func Create(data string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"save": data,
+		"data": data,
 		"exp":  time.Now().Add(time.Second * 60 * 60).Unix(),
 	})
 	tokenHash, err := token.SignedString([]byte(secret.APP_SECRET))
@@ -22,7 +22,7 @@ func Create(data string) (string, error) {
 	return tokenHash, nil
 }
 
-func Verify(token string, c *gin.Context) (string, error) {
+func Verify(c *gin.Context, token string) (string, error) {
 	getToken, _ := jwt.Parse(token, func(getToken *jwt.Token) (interface{}, error) {
 		if _, ok := getToken.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected method: %v", getToken.Header["alg"])
@@ -36,5 +36,5 @@ func Verify(token string, c *gin.Context) (string, error) {
 	if float64(time.Now().Unix()) > claims["exp"].(float64) {
 		return "", errors.New("Unauthorized")
 	}
-	return claims["save"].(string), nil
+	return claims["data"].(string), nil
 }

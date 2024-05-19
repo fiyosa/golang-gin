@@ -1,10 +1,14 @@
-package model
+package db
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Address struct {
-	Id         uint `json:"id" gorm:"primaryKey;autoIncrement"`
-	ContactId  uint
+	Id         int       `json:"id" gorm:"primaryKey;autoIncrement"`
+	ContactId  int       `json:"contact_id" `
 	Street     string    `json:"street" gorm:"type:varchar(255)"`
 	City       string    `json:"city" gorm:"type:varchar(255)"`
 	Province   string    `json:"province" gorm:"type:varchar(255)"`
@@ -13,5 +17,21 @@ type Address struct {
 	CreatedAt  time.Time `json:"created_at" gorm:"type:timestamp(0);not null;default:CURRENT_TIMESTAMP"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"type:timestamp(0);not null;default:CURRENT_TIMESTAMP"`
 
-	Contact Contact `json:"contact_id" gorm:"foreignKey:ContactId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Contact Contact `gorm:"foreignKey:ContactId;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+}
+
+func (a *Address) Create() *gorm.DB {
+	return G.Create(&a)
+}
+
+func (a *Address) Show(id int) *gorm.DB {
+	return G.First(&a, id)
+}
+
+func (a *Address) Update() *gorm.DB {
+	return G.Save(&a)
+}
+
+func (a *Address) Delete(id int) *gorm.DB {
+	return G.Delete(&a, id)
 }

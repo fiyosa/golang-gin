@@ -9,14 +9,14 @@ import (
 
 func Create(data string) (string, error) {
 	result, err := bcrypt.GenerateFromPassword([]byte(data), 10)
-	if err == nil {
+	if err != nil {
 		return "", err
 	}
 	return string(result), nil
 }
 
 func Verify(check string, original string) bool {
-	if err := bcrypt.CompareHashAndPassword([]byte(original), []byte(check)); err == nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(original), []byte(check)); err != nil {
 		return false
 	}
 	return true

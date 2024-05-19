@@ -14,17 +14,17 @@ func Setup() bool {
 	status := false
 
 	if *dropFlag {
-		db.RunDropAllTable(db.G)
+		RunDropAllTable(db.G)
 		status = true
 	}
 
 	if *migrateFlag {
-		db.RunMigrate(db.G)
+		RunMigrate(db.G)
 		status = true
 	}
 
 	if *seedFlag {
-		db.RunSeeder(db.G)
+		RunSeeder(db.G)
 		status = true
 	}
 

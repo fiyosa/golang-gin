@@ -10,6 +10,7 @@ var ID = ILang{
 	SAVED_SUCCESSFULLY:     ":operator berhasil disimpan",
 	UPDATED_SUCCESSFULLY:   ":operator berhasil diubah",
 	DELETED_SUCCESSFULLY:   ":operator berhasil dihapus",
+	ALREADY_EXIST:          ":operator sudah ada",
 
 	UNAUTHORIZED_ACCESS:  "Akses tidak sah",
 	AUTH_NOT_FOUND:       "Akun Anda tidak ditemukan, silakan coba lagi",

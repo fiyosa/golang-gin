@@ -1,0 +1,30 @@
+@HOST = http://localhost:4000/api
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNCIsImV4cCI6MTcxNjEzNDU0MH0.7AEUh7RMv6FUqJYzcMydy6nWbtKLU49Hxv8dszwO6aw
+
+### Register
+
+POST {{HOST}}/auth/register
+Content-Type: application/json
+
+{
+    "username":"test",
+    "password":"Password",
+    "name":"test"
+}
+
+### Login
+
+POST {{HOST}}/auth/login
+Content-Type: application/json
+
+{
+    "username":"test",
+    "password":"Password"
+}
+
+### Auth User
+
+GET  {{HOST}}/auth/user
+Authorization: Bearer {{TOKEN}}
+
+### 

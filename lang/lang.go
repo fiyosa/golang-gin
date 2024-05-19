@@ -33,6 +33,7 @@ type ILang struct {
 	SAVED_SUCCESSFULLY     string
 	UPDATED_SUCCESSFULLY   string
 	DELETED_SUCCESSFULLY   string
+	ALREADY_EXIST          string
 
 	UNAUTHORIZED_ACCESS  string
 	AUTH_NOT_FOUND       string

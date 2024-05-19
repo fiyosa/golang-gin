@@ -2,7 +2,6 @@ package route
 
 import (
 	"fmt"
-	"go-gin/database/model"
 	"go-gin/lang"
 	"go-gin/pkg/db"
 	"go-gin/pkg/jwt"
@@ -18,13 +17,13 @@ func AuthSecret(c *gin.Context) {
 		c.JSON(400, gin.H{"message": jwtCreate})
 		return
 	}
-	jwtVerify, errJV := jwt.Verify(jwtCreate, c)
+	jwtVerify, errJV := jwt.Verify(c, jwtCreate)
 	if errJV != nil {
 		c.JSON(400, gin.H{"message": jwtCreate})
 		return
 	}
 
-	var users []model.User
+	var users []*db.User
 	result := db.G.Preload("Contacts.Addresses").Find(&users)
 
 	if result.Error != nil {
@@ -47,7 +46,7 @@ func AuthSecret(c *gin.Context) {
 			"JWT Create": jwtCreate,
 			"JWT Verify": jwtVerify,
 
-			"user_id": users,
+			"users": users,
 		},
 		"message": lang.L(lang.SetL().RETRIEVED_SUCCESSFULLY, gin.H{"operator": "Secret"}),
 	})

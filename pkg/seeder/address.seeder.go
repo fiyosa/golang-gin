@@ -1,15 +1,15 @@
 package seeder
 
 import (
-	"go-gin/database/model"
+	"go-gin/pkg/db"
 
 	"gorm.io/gorm"
 )
 
 func AddressSeeder(g *gorm.DB) {
-	var contacts []*model.Contact
+	var contacts []*db.Contact
 
-	addresses := []*model.Address{
+	addresses := []*db.Address{
 		{Street: "street 1", City: "Bandung", Province: "Jawa Barat", Country: "Indonesia", PostalCode: "41234"},
 		{Street: "street 2", City: "Surabaya", Province: "Jawa Timur", Country: "Indonesia", PostalCode: "41235"},
 	}

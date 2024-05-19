@@ -4,9 +4,31 @@ import (
 	"go-gin/pkg/middleware"
 	"go-gin/pkg/secret"
 	"go-gin/service/route"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+func Setup() *gin.Engine {
+	r := configRouter()
+	p := r.Group("/api") // prefix /api
+
+	p.POST("/auth/register", route.AuthRegister)
+	p.POST("/auth/login", route.AuthLogin)
+	p.GET("/auth/secret", route.AuthSecret)
+
+	p.Use(middleware.Auth())
+	{
+		p.GET("/auth/user", route.AuthUser)
+		p.GET("/user", route.UserIndex)
+	}
+
+	r.NoRoute(route.AuthNotFound)
+
+	return r
+}
 
 func configRouter() *gin.Engine {
 	if secret.APP_ENV == "development" {
@@ -23,22 +45,17 @@ func configRouter() *gin.Engine {
 	r.SetTrustedProxies(nil)
 	r.Use(middleware.Cors())
 
-	return r
-}
+	r.LoadHTMLGlob("service/view/*.html")
+	r.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "welcome.html", gin.H{}) })
 
-func Setup() *gin.Engine {
-	r := configRouter()
-	p := r.Group("/api") // prefix /api
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(
+		swaggerfiles.Handler,
+		ginSwagger.URL(secret.APP_URL+"/swagger/doc.json"),
+		ginSwagger.DocExpansion("none"),
+		ginSwagger.DefaultModelsExpandDepth(-1),
+	)) // add swagger
 
-	p.GET("/auth/login", route.AuthLogin)
-	p.GET("/auth/secret", route.AuthSecret)
-
-	p.Use(middleware.Auth())
-	{
-		p.GET("/user", route.UserIndex)
-	}
-
-	r.NoRoute(route.AuthNotFound)
+	r.GET("/swagger", func(c *gin.Context) { c.Redirect(http.StatusFound, "/swagger/index.html") })
 
 	return r
 }

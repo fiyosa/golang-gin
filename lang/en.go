@@ -10,6 +10,7 @@ var EN = ILang{
 	SAVED_SUCCESSFULLY:     ":operator saved successfully",
 	UPDATED_SUCCESSFULLY:   ":operator updated successfully",
 	DELETED_SUCCESSFULLY:   ":operator deleted successfully",
+	ALREADY_EXIST:          ":operator already exist",
 
 	UNAUTHORIZED_ACCESS:  "Unauthorized access",
 	AUTH_NOT_FOUND:       "Your account not found, please try again",
