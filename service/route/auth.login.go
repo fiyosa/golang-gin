@@ -19,7 +19,7 @@ import (
 // @Tags 		Auth
 // @Accept 		json
 // @Produce 	json
-// @Param		Payload  body dto.AuthLoginPayload true "Payload"
+// @Param		payload body dto.AuthLoginPayload true "payload"
 // @Success 	200 {object} dto.AuthLoginResponse "ok"
 // @Router 		/auth/login [post]
 func AuthLogin(c *gin.Context) {

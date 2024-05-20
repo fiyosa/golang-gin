@@ -23,6 +23,7 @@ func Setup() *gin.Engine {
 	{
 		p.GET("/auth/user", route.AuthUser)
 		p.GET("/user", route.UserIndex)
+		p.GET("/user/:id", route.UserShow)
 	}
 
 	r.NoRoute(route.AuthNotFound)
@@ -50,7 +51,6 @@ func configRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(
 		swaggerfiles.Handler,
-		ginSwagger.URL(secret.APP_URL+"/swagger/doc.json"),
 		ginSwagger.DocExpansion("none"),
 		ginSwagger.DefaultModelsExpandDepth(-1),
 	)) // add swagger

@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type IPaginate struct {
-	Page  int
-	Limit int
-	Total int
+type Paginate struct {
+	Page  int `json:"page" example:"0"`
+	Limit int `json:"limit" example:"0"`
+	Total int `json:"total" example:"0"`
 }
 
 func SendSuccess(c *gin.Context, msg string) {
@@ -25,7 +25,7 @@ func SendData(c *gin.Context, msg string, data interface{}) {
 	})
 }
 
-func SendDatas(c *gin.Context, msg string, data interface{}, paginate IPaginate) {
+func SendDatas(c *gin.Context, msg string, data interface{}, paginate Paginate) {
 	c.JSON(http.StatusOK, gin.H{
 		"data":       data,
 		"pagination": paginate,
@@ -38,13 +38,13 @@ func SendError(c *gin.Context, msg string, statusCode ...int) {
 	if len(statusCode) > 0 {
 		code = statusCode[0]
 	}
-	c.JSON(code, gin.H{
+	c.AbortWithStatusJSON(code, gin.H{
 		"message": msg,
 	})
 }
 
 func SendErrors(c *gin.Context, msg string, err interface{}) {
-	c.JSON(http.StatusBadRequest, gin.H{
+	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 		"errors":  err,
 		"message": msg,
 	})

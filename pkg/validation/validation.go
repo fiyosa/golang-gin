@@ -21,20 +21,20 @@ func Setup() error {
 	fmt.Println("locale", locale, secret.APP_LOCALE)
 	uni := ut.New(
 		en.New(),
-		en.New(),
 		id.New(),
+		en.New(),
 		id.New(),
 	)
 
 	var found bool
-	Translator, found = uni.GetTranslator(locale)
+	Translator, found = uni.GetTranslator(secret.APP_LOCALE)
 	if !found {
-		return fmt.Errorf("translator for locale %s not found", locale)
+		return fmt.Errorf("translator for locale %s not found", secret.APP_LOCALE)
 	}
 
 	validate := validator.New()
 
-	switch locale {
+	switch secret.APP_LOCALE {
 	case "en":
 		return en_translations.RegisterDefaultTranslations(validate, Translator)
 	case "id":

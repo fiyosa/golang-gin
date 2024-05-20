@@ -1,8 +1,8 @@
 package cmd
 
 import (
+	"go-gin/cmd/seeder"
 	"go-gin/pkg/db"
-	"go-gin/pkg/seeder"
 	"log"
 
 	"gorm.io/gorm"

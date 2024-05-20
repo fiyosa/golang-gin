@@ -6,21 +6,38 @@ import (
 	"go-gin/pkg/hash"
 	"go-gin/pkg/helper"
 	"go-gin/service/dto"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-// @Summary 	Get user by auth
-// @Description Get user by auth
-// @Tags 		Auth
+// @Summary 	Get user
+// @Description Get user
+// @Tags 		User
 // @Accept 		json
 // @Produce 	json
-// @Success 	200 {object} dto.AuthUserResponse "ok"
+// @Param 		id path string true "id"
+// @Success 	200 {object} dto.UserShowResponse "ok"
 // @Security	BearerAuth
-// @Router 		/auth/user [get]
-func AuthUser(c *gin.Context) {
+// @Router 		/user/{id} [get]
+func UserShow(c *gin.Context) {
+	userAuth := db.User{}
+	if !userAuth.GetUser(c) {
+		return
+	}
+
+	user_id := c.Param("id")
+	getId, _ := hash.Decode(user_id)
+
 	user := db.User{}
-	if !user.GetUser(c) {
+	user.Show(getId)
+
+	if user.Id == 0 {
+		helper.SendError(
+			c,
+			lang.L(lang.SetL().NOT_FOUND, gin.H{"operator": lang.SetL().USER}),
+			http.StatusNotFound,
+		)
 		return
 	}
 
@@ -28,7 +45,7 @@ func AuthUser(c *gin.Context) {
 	helper.SendData(
 		c,
 		lang.L(lang.SetL().RETRIEVED_SUCCESSFULLY, gin.H{"operator": lang.SetL().USER}),
-		dto.AuthUserDataResponse{
+		dto.UserShowDataResponse{
 			Id:        id,
 			Username:  user.Username,
 			Name:      user.Name,

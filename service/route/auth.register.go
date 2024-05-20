@@ -15,7 +15,7 @@ import (
 // @Tags 		Auth
 // @Accept 		json
 // @Produce 	json
-// @Param		Payload  body dto.AuthRegisterPayload true "Payload"
+// @Param		payload body dto.AuthRegisterPayload true "payload"
 // @Success 	200 {object} dto.AuthRegisterResponse "ok"
 // @Router 		/auth/register [post]
 func AuthRegister(c *gin.Context) {
@@ -50,15 +50,16 @@ func AuthRegister(c *gin.Context) {
 
 	user.Create()
 
-	c.JSON(200, gin.H{
-		"data": gin.H{
-			"id":         user.Id,
-			"username":   user.Username,
-			"name":       user.Name,
-			"pass":       user.Password,
-			"created_at": helper.Time2Str(user.CreatedAt),
-			"updated_at": helper.Time2Str(user.UpdatedAt),
+	id, _ := hash.Encode(user.Id)
+	helper.SendData(
+		c,
+		lang.L(lang.SetL().SAVED_SUCCESSFULLY, gin.H{"operator": lang.SetL().USER}),
+		dto.AuthRegisterDataResponse{
+			Id:        id,
+			Username:  user.Username,
+			Name:      user.Name,
+			CreatedAt: helper.Time2Str(user.CreatedAt),
+			UpdatedAt: helper.Time2Str(user.UpdatedAt),
 		},
-		"message": lang.L(lang.SetL().SAVED_SUCCESSFULLY, gin.H{"operator": lang.SetL().USER}),
-	})
+	)
 }

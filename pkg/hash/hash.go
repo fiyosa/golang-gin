@@ -25,12 +25,18 @@ func Verify(check string, original string) bool {
 func Encode(data int) (string, error) {
 	h := setupHD()
 	encode, err := h.Encode([]int{data})
+	if err != nil {
+		return "", err
+	}
 	return encode, err
 }
 
 func Decode(data string) (int, error) {
 	h := setupHD()
 	decode, err := h.DecodeWithError(data)
+	if err != nil {
+		return -1, err
+	}
 	return decode[0], err
 }
 

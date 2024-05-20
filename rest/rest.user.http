@@ -1,0 +1,21 @@
+@HOST = http://localhost:4000/api
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiOSIsImV4cCI6MTcxNjI4MzkxNn0.5xtetH9OEJLj9lf15mxuzLeBQTRZjYkg_DHoktb692c
+
+###
+# index
+
+GET {{HOST}}/user
+        ?page=
+        &limit=2
+        &keyword=
+        &orderBy=id
+        &sortedBy=asc
+Authorization: Bearer {{TOKEN}}
+
+###
+# show
+
+GET {{HOST}}/user/:id
+Authorization: Bearer {{TOKEN}}
+
+###

@@ -20,7 +20,7 @@ func Auth() gin.HandlerFunc {
 			return
 		}
 
-		result, err := jwt.Verify(c, token)
+		_, err := jwt.Verify(c, token)
 
 		if err != nil {
 			helper.SendError(c, lang.L(lang.SetL().UNAUTHORIZED_ACCESS, nil))
@@ -28,7 +28,14 @@ func Auth() gin.HandlerFunc {
 		}
 
 		user := db.User{}
-		user.Show(helper.Str2Int(result))
+
+		db.G.Where(&db.User{Token: token}).First(&user)
+
+		if user.Id == 0 {
+			helper.SendError(c, lang.L(lang.SetL().UNAUTHORIZED_ACCESS, nil))
+			return
+		}
+
 		c.Set("user", user)
 		c.Next()
 	}

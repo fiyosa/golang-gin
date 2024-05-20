@@ -1,7 +1,8 @@
 package db
 
 import (
-	"errors"
+	"go-gin/lang"
+	"go-gin/pkg/helper"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -20,17 +21,19 @@ type User struct {
 	Contacts []Contact `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
-func (u *User) GetUser(c *gin.Context) error {
+func (u *User) GetUser(c *gin.Context) bool {
 	user, exists := c.Get("user")
 	if !exists {
-		return errors.New("User is not found")
+		helper.SendError(c, lang.L(lang.SetL().UNAUTHORIZED_ACCESS, nil))
+		return false
 	}
 	userObj, ok := user.(User)
 	if !ok {
-		return errors.New("User is not found")
+		helper.SendError(c, lang.L(lang.SetL().UNAUTHORIZED_ACCESS, nil))
+		return false
 	}
 	*u = userObj
-	return nil
+	return true
 }
 
 func (u *User) Create() *gorm.DB {

@@ -30,8 +30,8 @@ const docTemplate = `{
                 "summary": "Login",
                 "parameters": [
                     {
-                        "description": "Payload",
-                        "name": "Payload",
+                        "description": "payload",
+                        "name": "payload",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -64,8 +64,8 @@ const docTemplate = `{
                 "summary": "Register",
                 "parameters": [
                     {
-                        "description": "Payload",
-                        "name": "Payload",
+                        "description": "payload",
+                        "name": "payload",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -106,6 +106,103 @@ const docTemplate = `{
                         "description": "ok",
                         "schema": {
                             "$ref": "#/definitions/dto.AuthUserResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "keyword",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "orderBy",
+                        "name": "orderBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "sortedBy",
+                        "name": "sortedBy",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserIndexResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserShowResponse"
                         }
                     }
                 }
@@ -239,6 +336,103 @@ const docTemplate = `{
                     "example": ""
                 }
             }
+        },
+        "dto.UserIndexDataResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "id": {
+                    "type": "string",
+                    "example": ""
+                },
+                "name": {
+                    "type": "string",
+                    "example": ""
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "username": {
+                    "type": "string",
+                    "example": ""
+                }
+            }
+        },
+        "dto.UserIndexResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.UserIndexDataResponse"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": ""
+                },
+                "pagination": {
+                    "$ref": "#/definitions/helper.Paginate"
+                }
+            }
+        },
+        "dto.UserShowDataResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "id": {
+                    "type": "string",
+                    "example": ""
+                },
+                "name": {
+                    "type": "string",
+                    "example": ""
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": ""
+                },
+                "username": {
+                    "type": "string",
+                    "example": ""
+                }
+            }
+        },
+        "dto.UserShowResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.UserShowDataResponse"
+                },
+                "message": {
+                    "type": "string",
+                    "example": ""
+                }
+            }
+        },
+        "helper.Paginate": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "total": {
+                    "type": "integer",
+                    "example": 0
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -254,7 +448,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
+	Host:             "localhost:4000",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Tag Service API",
