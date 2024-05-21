@@ -1,4 +1,3 @@
-basePath: /api
 definitions:
   dto.AuthLoginPayload:
     properties:
@@ -159,7 +158,6 @@ definitions:
         example: 0
         type: integer
     type: object
-host: localhost:4000
 info:
   contact: {}
   description: A Tag Service API in Go useing Gin Framework

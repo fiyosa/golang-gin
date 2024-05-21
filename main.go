@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"go-gin/cmd"
-	_ "go-gin/docs"
 	"go-gin/pkg/db"
 	"go-gin/pkg/secret"
 	"go-gin/pkg/validation"
@@ -13,8 +12,6 @@ import (
 // @title Tag Service API
 // @version 1.0
 // @description A Tag Service API in Go useing Gin Framework
-// @Host localhost:4000
-// @BasePath /api
 
 // @securityDefinitions.apikey BearerAuth
 // @in header

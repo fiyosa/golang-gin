@@ -1,6 +1,7 @@
 package router
 
 import (
+	docs "go-gin/docs"
 	"go-gin/pkg/middleware"
 	"go-gin/pkg/secret"
 	"go-gin/service/route"
@@ -49,12 +50,13 @@ func configRouter() *gin.Engine {
 	r.LoadHTMLGlob("service/view/*.html")
 	r.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "welcome.html", gin.H{}) })
 
+	docs.SwaggerInfo.Host = secret.APP_URL
+	docs.SwaggerInfo.BasePath = "/api"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(
 		swaggerfiles.Handler,
 		ginSwagger.DocExpansion("none"),
 		ginSwagger.DefaultModelsExpandDepth(-1),
-	)) // add swagger
-
+	))
 	r.GET("/swagger", func(c *gin.Context) { c.Redirect(http.StatusFound, "/swagger/index.html") })
 
 	return r
