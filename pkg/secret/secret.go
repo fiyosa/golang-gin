@@ -13,11 +13,13 @@ var (
 	APP_LOCALE string
 	APP_SECRET string
 
-	DB_HOST string
-	DB_PORT string
-	DB_NAME string
-	DB_USER string
-	DB_PASS string
+	DB_HOST    string
+	DB_PORT    string
+	DB_NAME    string
+	DB_USER    string
+	DB_PASS    string
+	DB_SCHEMA  string
+	DB_SSLMODE string
 )
 
 func env() {
@@ -31,6 +33,8 @@ func env() {
 	DB_NAME = getEnv("DB_NAME", "golang-gin")
 	DB_USER = getEnv("DB_USER", "postgres")
 	DB_PASS = getEnv("DB_PASS", "")
+	DB_SCHEMA = getEnv("DB_SCHEMA", "public")
+	DB_SSLMODE = getEnv("DB_SSLMODE", "disable")
 }
 
 func Setup() bool {
